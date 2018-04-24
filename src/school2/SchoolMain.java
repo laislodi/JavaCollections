@@ -1,4 +1,4 @@
-package school;
+package school2;
 
 public class SchoolMain {
     /*
