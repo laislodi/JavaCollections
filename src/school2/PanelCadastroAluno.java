@@ -1,9 +1,12 @@
 package school2;
 
+import school2.datautil.DataUtil;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,20 +21,20 @@ public class PanelCadastroAluno extends DaddyPanel {
     private JTextField txtNota;
     private JTextField txtFrequencia;
 
-    private PanelCadastroAluno(JFrame frame, DaddyPanel inicio, String titulo, boolean isCadastro) {
+    private PanelCadastroAluno(JFrame frame, DaddyPanel inicio, String titulo, List<Aluno> alunos, boolean isCadastro) {
         super(frame, titulo);
-        this.init(isCadastro, inicio);
+        this.init(isCadastro, inicio, alunos);
     }
 
-    public static PanelCadastroAluno newCriar(JFrame frame, DaddyPanel inicio, String titulo) {
-        return new PanelCadastroAluno(frame, inicio, titulo, true);
+    public static PanelCadastroAluno newCriar(JFrame frame, DaddyPanel inicio, String titulo, List<Aluno> alunos) {
+        return new PanelCadastroAluno(frame, inicio, titulo, alunos,  true);
     }
 
-    public static PanelCadastroAluno newEditar(JFrame frame, DaddyPanel inicio, String titulo) {
-        return new PanelCadastroAluno(frame, inicio, titulo, false);
+    public static PanelCadastroAluno newBuscar(JFrame frame, DaddyPanel inicio, String titulo, List<Aluno> alunos) {
+        return new PanelCadastroAluno(frame, inicio, titulo, alunos, false);
     }
 
-    private void init(boolean isCadastro, DaddyPanel inicio) {
+    private void init(boolean isCadastro, DaddyPanel inicio, List<Aluno> alunos) {
         JPanel dados = criarPainelDeDados();
         JPanel pnButtons = new JPanel();
 
@@ -44,17 +47,40 @@ public class PanelCadastroAluno extends DaddyPanel {
         });
         pnButtons.add(btnVoltarInicio);
 
-        JButton btnSalvar = new JButton("Salvar");
-        btnSalvar.addActionListener(new ActionListener() {
+        JButton btnSalvarBuscar = new JButton(isCadastro ? "Salvar" : "Buscar");
+        btnSalvarBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Aluno aluno = new Aluno(
+                        txtMatricula.getText(),
+                        txtNome.getText(),
+                        DataUtil.stringToCalendar(txtDataDeNascimento.getText()),
+                        Double.parseDouble(txtNota.getText()),
+                        Double.parseDouble(txtFrequencia.getText())
+                );
+                if (isCadastro) {
+                    alunos.add(aluno);
+                } else {
+                    buscarAluno(alunos,aluno);
+                }
             }
         });
-        pnButtons.add(btnSalvar);
+        pnButtons.add(btnSalvarBuscar);
 
         this.add(BorderLayout.SOUTH, pnButtons);
         this.add(dados);
+    }
+
+    private void buscarAluno(List<Aluno> alunos, Aluno aluno) {
+        for (Aluno a : alunos) {
+            if ((a.getMatricula() != ""                                   || aluno.getMatricula().equals(a.getMatricula())) &&
+                (a.getNome() != ""                                        || aluno.getNome().equals(a.getNome())) &&
+                (DataUtil.calendarToString(a.getDataDeNascimento()) != "" || aluno.getDataDeNascimento().equals(a.getDataDeNascimento())) &&
+                (a.getNota().toString() != ""                             || aluno.getNota() == a.getNota()) &&
+                (a.getFrequencia().toString() != ""                       || aluno.getFrequencia() == a.getFrequencia())) {
+
+            }
+        }
     }
 
     private JPanel criarPainelDeDados() {

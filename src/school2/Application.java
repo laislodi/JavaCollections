@@ -44,9 +44,9 @@ public class Application {
 
         inicio = criarPainelInicial();
 
-        pnCadastroAluno = PanelCadastroAluno.newCriar(frame, inicio, tituloCadastrar);
-        pnEditarAluno = PanelCadastroAluno.newEditar(frame, inicio, tituloEditar);
-        pnBuscarAluno = new PainelBuscarAluno(frame, inicio, tituloBuscar);
+        pnCadastroAluno = PanelCadastroAluno.newCriar(frame, inicio, tituloCadastrar, alunos);
+        pnEditarAluno = PanelCadastroAluno.newBuscar(frame, inicio, tituloEditar, alunos);
+        pnBuscarAluno = new PainelBuscarAluno(frame, inicio, tituloBuscar, alunos);
         pnListarTodosAlunos = new PainelListarTodosAlunos(frame, inicio, pnEditarAluno,tituloListarTodos, alunos);
 
         frame.setSize(600,400);

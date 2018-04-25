@@ -2,6 +2,8 @@ package school2;
 
 import school2.datautil.DataUtil;
 
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ObjectInputStream;
@@ -20,6 +22,7 @@ public class PainelListarTodosAlunos extends DaddyPanel {
 
     private void criarPainelListar(JFrame frame, DaddyPanel inicio, PanelCadastroAluno telaEditar, String titulo, List<Aluno> alunos) {
         frame.setTitle(titulo);
+        this.setLayout(new BorderLayout());
 
         JTable table;
         String[] colunas = new String[]{"Matricula","Nome", "Data de Nascimento", "Nota", "Frequencia(%)"};
